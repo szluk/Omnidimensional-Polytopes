@@ -8,7 +8,7 @@ function [num den res] = ballsfg(kind, n)
 % den  - absolute f or g denominator
 % res  - f or g
 %% (c) Szymon £ukaszyk
-% licensed under a Creative Commons Attribution-ShareAlike 2.0 Generic License.
+% licensed under MIT License
 % email: szymon@patent.pl
 % History
 % v1:0 21.05.2022
