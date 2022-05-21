@@ -52,6 +52,8 @@ switch kind
         for k=1:floorabsn2-1
           num = num*(2*k+1);
         end        
+      else % n=-1
+        num = 1;
       end
     end
   case 'g'
