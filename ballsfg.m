@@ -23,7 +23,6 @@ if mod(n,1)
 end
 
 floorn2     = floor(n/2);
-floorabsn2  = floor(abs(n/2));
 signfct     = -( (-1)^floorn2 );
 
 num = 0;
@@ -33,30 +32,25 @@ res = 0;
 switch kind
   case 'f'
     if ~mod(n,2)  % n is even
-      if n>0
+      if n>=0
         num = 1;
-        den = 1;
-        for k=1:n/2
-          den = den*k;
-        end
-      elseif n==0
-        num = 1;      
+        den = factorial(n/2);        
       end
     else           % n is odd
       if n>0
-        num = 2^((n+1)/2);
-        den = 1;
-        for k=1:floor(n/2)
-          den = den*(2*k+1);
-        end
-     elseif n<-1
-        den = 2^floorabsn2;
-        num = 1;
-        for k=1:floorabsn2-1
-          num = num*(2*k+1);
-        end        
-      else % n=-1
-        num = 1;
+        num = ( 2^(n+1) ) * factorial( (n+1)/2 );
+        den = factorial(n+1);
+        nn  = (n+1)/2; % simplify the fraction
+        fct = factorial(nn)*2^nn;
+        num = num/fct;
+        den = den/fct;        
+     else
+        num = factorial(-n-1);
+        den = factorial( (-n-1)/2 )*2^(-n-1);
+        nn  = -(n+1)/2; % simplify the fraction
+        fct = factorial(nn)*2^nn;
+        num = num/fct;
+        den = den/fct;        
       end
     end
   case 'g'
