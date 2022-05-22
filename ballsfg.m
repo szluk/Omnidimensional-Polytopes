@@ -11,7 +11,8 @@ function [num den res] = ballsfg(kind, n)
 % licensed under MIT License
 % email: szymon@patent.pl
 % History
-% v1:0 21.05.2022
+% v1: 21.05.2022
+% v2: 22.05.2022
 
 if nargin ~= 2
     error 'Wrong number of arguments';
@@ -38,6 +39,8 @@ switch kind
         for k=1:n/2
           den = den*k;
         end
+      elseif n==0
+        num = 1;      
       end
     else           % n is odd
       if n>0
@@ -46,7 +49,7 @@ switch kind
         for k=1:floor(n/2)
           den = den*(2*k+1);
         end
-      elseif n<-1
+     elseif n<-1
         den = 2^floorabsn2;
         num = 1;
         for k=1:floorabsn2-1
@@ -57,17 +60,19 @@ switch kind
       end
     end
   case 'g'
-    if n>=0
-      num = 1;
-      den = ballsgrec(n);
-    elseif n<-1
-      if mod(n,2)  % n is odd
-        den = 1;
-        num = ballsgrec(-(n+2))*4  
+    if ~mod(n,2)  % n is even
+      if n>=0
+        num = 1;
+        den = (4^floorn2)*factorial(floorn2);
+      end 
+    else           % n is odd
+      if n>0
+         num = 1;
+         den = factorial(2*floorn2+1)/factorial(floorn2);
+      else
+        num = 2*factorial( 2*floor(-n/2) );
+        den = factorial( floor(-n/2) );  
       end
-    else % n=-1
-      num = 2;
-      den = 1;
     end
   otherwise
     error 'Unknown kind of relation';
