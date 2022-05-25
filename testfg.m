@@ -11,6 +11,8 @@ for n=-11:9
   disp(str);
 end
 
+return
+
 % check products in even dimensions
 for n=-9:2:9
   %if mod(n,2) % n is odd
