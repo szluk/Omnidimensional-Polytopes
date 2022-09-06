@@ -6,10 +6,8 @@
 
 clear all
 
-clear all
-
 % other radii
-res=50;
+res=25;
 nRe   = linspace(-8, 12, res);
 nIm   = linspace(-2 ,  2, res);
 [NRE,NIM] = meshgrid(nRe, nIm);
@@ -33,15 +31,22 @@ SGM   = (NRE + i*NIM) .* VGM ./ R_k;
 
 VGM1  = (pi.^(NRE/2)) .* (R_k.^NRE) .* ( cos( NIM.*log( sqrt(pi)/R_k ) ) + i*sin( NIM.*log( sqrt(pi)*R_k) ) ) ./ gamma2( ((NRE + i*NIM)/2) + 1 ); %OK
 
+VGMnew= R_k .* ( pi.^((nRe)/2) ) ./ gamma2( ((nRe)/2) + 1 );
+
 %return
 
 figure
+hold on
 mesh(NRE,NIM,abs(VGM))
 xlabel('Re(n)')
 ylabel('Im(n)')
 zlabel('abs(V)')
 title( sprintf( 'R=%f', R_k) )
 rotate3d on
+set(gca,'FontName', 'Times New Roman')
+set(gca,'FontSize', 12)
+plot3(real(nRe), imag(nRe), VGMnew, 'k')
+view(-20, 20);
 
 %figure
 %mesh(NRE,NIM,abs(VGM1))
@@ -53,12 +58,17 @@ rotate3d on
 %return
 
 figure
+hold on
 mesh(NRE,NIM,real(VGM))
 xlabel('Re(n)')
 ylabel('Im(n)')
 zlabel('Re(V)')
 title( sprintf( 'R=%f', R_k) )
 rotate3d on
+set(gca,'FontName', 'Times New Roman')
+set(gca,'FontSize', 12)
+plot3(real(nRe), imag(nRe), VGMnew, 'k')
+view(-20, 20);
 
 figure
 mesh(NRE,NIM,imag(VGM))
@@ -67,6 +77,10 @@ ylabel('Im(n)')
 zlabel('Im(V)')
 title( sprintf( 'R=%f', R_k) )
 rotate3d on
+line([min(nRe) max(nRe)], [0 0], [0 0], 'Color',[0 0 0]);
+set(gca,'FontName', 'Times New Roman')
+set(gca,'FontSize', 12)
+view(-20, 20);
 
 return
 
@@ -77,6 +91,8 @@ ylabel('Im(n)')
 zlabel('abs(S)')
 title( sprintf( 'R=%f', R_k) )
 rotate3d on
+set(gca,'FontName', 'Times New Roman')
+set(gca,'FontSize', 12)
 
 figure
 mesh(NRE,NIM,real(SGM))
@@ -85,6 +101,8 @@ ylabel('Im(n)')
 zlabel('Re(S)')
 title( sprintf( 'R=%f', R_k) )
 rotate3d on
+set(gca,'FontName', 'Times New Roman')
+set(gca,'FontSize', 12)
 
 figure
 mesh(NRE,NIM,imag(SGM))
@@ -93,9 +111,48 @@ ylabel('Im(n)')
 zlabel('Im(S)')
 title( sprintf( 'R=%f', R_k) )
 rotate3d on
-
+line([min(nRe) max(nRe)], [0 0], [0 0], 'Color',[0 0 0]);
+set(gca,'FontName', 'Times New Roman')
+set(gca,'FontSize', 12)
 
 return
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% testujemy orthoplexy i simplexy (A=1) start
+nRe   = linspace(-4, 6, res);
+nIm   = linspace(-.5,  .5, res);
+[NRE,NIM] = meshgrid(nRe, nIm);
+
+VGM   = ( 2.^((NRE + i*NIM)/2) ) ./ gamma2( NRE + i*NIM + 1 ); % orthoplex 
+VGM   = ( 2.^-((NRE + i*NIM)/2) ) .* ( ((NRE + i*NIM)+1).^(1/2) ) ./ gamma2( NRE + i*NIM + 1 ); % simplex
+
+figure
+mesh(NRE,NIM,abs(VGM))
+xlabel('Re(n)')
+ylabel('Im(n)')
+zlabel('abs(V)')
+rotate3d on
+
+figure
+mesh(NRE,NIM,real(VGM))
+xlabel('Re(n)')
+ylabel('Im(n)')
+zlabel('Re(V)')
+rotate3d on
+
+figure
+mesh(NRE,NIM,imag(VGM))
+xlabel('Re(n)')
+ylabel('Im(n)')
+zlabel('Im(V)')
+rotate3d on
+
+return
+
+% testujemy orthoplexy end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 
 % unit radius assumed
 nRe   =-12.2:.1:12;
