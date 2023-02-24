@@ -3,7 +3,7 @@ clear all
 n = -6:.001:6;
 n = -6:.05:6; %dla testów tabelowych
 
-kind = 'OCB';
+kind = 'SCB';
 D = 1;
 
 [VB VBR SB SBR] = vsomni(n, 'BAL', D);

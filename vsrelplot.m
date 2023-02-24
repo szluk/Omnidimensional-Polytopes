@@ -1,6 +1,6 @@
 clear all
 
-n = -6:.001:8;
+n = -6:.001:6;
 %n = -6:.05:8; %dla testów tabelowych
 
 [VBAL SBAL] = vsrel(n, 'BAL'); BALColor = [  0   0 255]/255; % blue
@@ -42,7 +42,7 @@ axis([min(n) max(n) -1 1 -.1 1])
 
 set(gca,'XTick',min(n):1:max(n))
 set(gca,'FontName', 'Times New Roman')
-set(gca,'FontSize', 12)
+set(gca,'FontSize', 16)
 
 xlabel('{\it n}')
 ylabel('Im({\itV}({\itn}){\itV}(-{\itn}))')
@@ -51,8 +51,9 @@ zlabel('Re({\itV}({\itn}){\itV}(-{\itn}))')
 grid on
 rotate3d on
 view(10, 20);
+view(29, 28);
 
-return
+%return
 
 % surface
 figure

@@ -4,6 +4,7 @@ clear all
 
 % METRIC AND GAMMA FUNCTION INDEPENDENT RELATIONS
 D=-11.21*i;
+D=1;
 % generate an array of complex numbers n
 dlt = .25;
 a=-2:dlt:2;
@@ -21,6 +22,147 @@ for k=1:length(a)
 end
 
 %myisequal( -sin(pi*(n+1)), sin(pi*n), 1.0e-13)
+
+n=-2:.33:2;
+
+% METRIC AND GAMMA FUNCTION INDEPENDENT RELATIONS (c.d.)
+[VCCBp VCCBRp SCCBp SCCBRp] = vsomni(n, 'CCB', D);
+[VCIBp VCIBRp SCIBp SCIBRp] = vsomni(n, 'CIB', D);
+[VSCBp VSCBRp SSCBp SSCBRp] = vsomni(n, 'SCB', D);
+[VSIBp VSIBRp SSIBp SSIBRp] = vsomni(n, 'SIB', D);
+[VOCBp VOCBRp SOCBp SOCBRp] = vsomni(n, 'OCB', D);
+[VOIBp VOIBRp SOIBp SOIBRp] = vsomni(n, 'OIB', D);
+
+%{SCBR_TO_SIBR}
+myisequal(VSCBRp, VSIBRp .* i.^(2*n) .* (-n).^n, 1.0e-10) % does not hold
+myisequal(SSCBRp, SSIBRp .* i.^(2+2*n) .* (-n).^(n-1), 1.0e-10) % does not hold
+
+%return
+
+%{CCB_TO_CIB} 
+myisequal(VCCBp, VCIBp .* n.^(n    /2), 1.0e-15)   % checked
+myisequal(SCCBp, SCIBp .* n.^((n-1)/2), 1.0e-15)   % checked
+%{SCB_TO_SIB}
+myisequal(VSCBp, VSIBp .* n.^n,         1.0e-15)   % checked
+myisequal(SSCBp, SSIBp .* n.^(n-1),     1.0e-15)   % checked
+%{OCB_TO_OIB}
+myisequal(VOCBp, VOIBp .* n.^(n/2),     1.0e-15)   % checked
+myisequal(SOCBp, SOIBp .* n.^((n-1)/2), 1.0e-15)   % checked
+
+return
+
+% VOLUME-SURFACE SYMMETRIES
+% checking particular symmetries between $n=-1/2$ and $n=1/2$
+
+np12 =  1/2;
+nn12 = -1/2;
+D = 1;
+
+[VSIBn VSIBRn SSIBn SSIBRn] = vsomni(nn12, 'SIB', D);
+[VSIBp VSIBRp SSIBp SSIBRp] = vsomni(np12, 'SIB', D);
+
+[VSCBn VSCBRn SSCBn SSCBRn] = vsomni(nn12, 'SCB', D);
+[VSCBp VSCBRp SSCBp SSCBRp] = vsomni(np12, 'SCB', D);
+
+[VOIBn a SOIBn a] = vsomni(nn12, 'OIB', D);
+[VOIBp a SOIBp a] = vsomni(np12, 'OIB', D);
+
+[VOCBn a SOCBn a] = vsomni(nn12, 'OCB', D);
+[VOCBp a SOCBp a] = vsomni(np12, 'OCB', D);
+
+[VCIBn a SCIBn a] = vsomni(nn12, 'CIB', D);
+[VCIBp a SCIBp a] = vsomni(np12, 'CIB', D);
+
+[VCCBn a SCCBn a] = vsomni(nn12, 'CCB', D);
+[VCCBp a SCCBp a] = vsomni(np12, 'CCB', D);
+
+[VBALn a SBALn a] = vsomni(nn12, 'BAL', D);
+[VBALp a SBALp a] = vsomni(np12, 'BAL', D);
+
+[VSIMn a SSIMn a] = vsomni(nn12, 'SIM', D);
+[VSIMp a SSIMp a] = vsomni(np12, 'SIM', D);
+
+[VORTn a SORTn a] = vsomni(nn12, 'ORT', D);
+[VORTp a SORTp a] = vsomni(np12, 'ORT', D);
+
+% {VBAL_SBAL_12}
+VBALn
+-SBALn
+
+VBALp
+SBALp
+
+% {VSIM_SSIM_12} 
+VSIMn
+2*i*sqrt(2)*SSIMn
+
+VSIMp
+SSIMp*2*sqrt(2/3)
+
+% {VORT_SORT_12} 
+VORTp
+2*SORTp
+
+VORTn
+i*2*SORTn
+
+% {VSIB_SSIB_12}
+VSIBn
+2*SSIBn
+
+VSIBp
+2*SSIBp
+
+% {VSCB_SSCB_12} 
+VSCBn
+-SSCBn
+
+VSCBp
+SSCBp
+
+% {VOIB_SOIB_12} 
+VOIBn
+i*sqrt(2)*SOIBn
+
+VOIBp
+sqrt(2)*SOIBp
+
+% {VOCB_SOCB_12} 
+VOCBn
+-SOCBn
+
+VOCBp
+SOCBp
+
+% {VCIB_SCIB_12} 
+VCIBn
+sqrt(2)*conj(SCIBn)
+
+VCIBp
+sqrt(2)*SCIBp
+
+% {VCCB_SCCB_12} 
+VCCBn
+-SCCBn
+%SCCBn
+
+VCCBp
+SCCBp
+
+% {SOIB_S_CIB_32} 
+np2  =  2;
+np3  =  3;
+[a a SOIB3 a ] = vsomni(np3, 'OIB', D);
+[a a SSIM3 a ] = vsomni(np3, 'SIM', D);
+SOIB3
+SSIM3
+
+[a a SOIB2 a ] = vsomni(np2, 'OIB', D);
+[a a SCIB2 a ] = vsomni(np2, 'CIB', D);
+SOIB2
+SCIB2
+
+return
 
 % {VBALp_VBALn}, {SBALp_SBAL2n}  
 [VBALp a SBALp a] = vsomni( n,  'BAL', D);
@@ -103,136 +245,5 @@ SCIBp_SCIB2n = myisequal( SCIBp.*SCIB2, S, 1.0e-14)   % checked
 
 return
 
-% METRIC AND GAMMA FUNCTION INDEPENDENT RELATIONS (c.d.)
-[VCCBp a SCCBp a] = vsomni(n, 'CCB', D);
-[VCIBp a SCIBp a] = vsomni(n, 'CIB', D);
-[VSCBp a SSCBp a] = vsomni(n, 'SCB', D);
-[VSIBp a SSIBp a] = vsomni(n, 'SIB', D);
-[VOCBp a SOCBp a] = vsomni(n, 'OCB', D);
-[VOIBp a SOIBp a] = vsomni(n, 'OIB', D);
 
-%{CCB_TO_CIB} 
-%myisequal(VCCBp./VCIBp, n.^(n    /2), 1.0e-15)   % checked
-%myisequal(SCCBp./SCIBp, n.^((n-1)/2), 1.0e-15)   % checked
-%{SCB_TO_SIB}
-%myisequal(VSCBp./VSIBp, n.^n,         1.0e-15)   % checked
-%myisequal(SSCBp./SSIBp, n.^(n-1),     1.0e-15)   % checked
-%{OCB_TO_OIB}
-%myisequal(VOCBp./VOIBp, n.^(n/2),     1.0e-15)   % checked
-%myisequal(SOCBp./SOIBp, n.^((n-1)/2), 1.0e-15)   % checked
-
-return
-
-% VOLUME-SURFACE SYMMETRIES
-% checking particular symmetries between $n=-1/2$ and $n=1/2$
-
-np12 =  1/2;
-nn12 = -1/2;
-D = 1;
-
-[VSIBn a SSIBn a] = vsomni(nn12, 'SIB', D);
-[VSIBp a SSIBp a] = vsomni(np12, 'SIB', D);
-
-[VSCBn a SSCBn a] = vsomni(nn12, 'SCB', D);
-[VSCBp a SSCBp a] = vsomni(np12, 'SCB', D);
-
-[VOIBn a SOIBn a] = vsomni(nn12, 'OIB', D);
-[VOIBp a SOIBp a] = vsomni(np12, 'OIB', D);
-
-[VOCBn a SOCBn a] = vsomni(nn12, 'OCB', D);
-[VOCBp a SOCBp a] = vsomni(np12, 'OCB', D);
-
-[VCIBn a SCIBn a] = vsomni(nn12, 'CIB', D);
-[VCIBp a SCIBp a] = vsomni(np12, 'CIB', D);
-
-[VCCBn a SCCBn a] = vsomni(nn12, 'CCB', D);
-[VCCBp a SCCBp a] = vsomni(np12, 'CCB', D);
-
-[VBALn a SBALn a] = vsomni(nn12, 'BAL', D);
-[VBALp a SBALp a] = vsomni(np12, 'BAL', D);
-
-[VSIMn a SSIMn a] = vsomni(nn12, 'SIM', D);
-[VSIMp a SSIMp a] = vsomni(np12, 'SIM', D);
-
-[VORTn a SORTn a] = vsomni(nn12, 'ORT', D);
-[VORTp a SORTp a] = vsomni(np12, 'ORT', D);
-
-% {VBAL_SBAL_12}
-VBALn
--SBALn
-
-VBALp
-SBALp
-
-% {VSIM_SSIM_12} 
-VSIMn
-2*i*sqrt(2)*SSIMn
-
-VSIMp
-SSIMp*2*sqrt(2/3)
-
-% {VORT_SORT_12} 
-VORTp
-2*SORTp
-
-VORTn
-i*2*SORTn
-
-% {VSIB_SSIB_12}
-VSIBn
-2*SSIBn
-
-VSIBp
-2*SSIBp
-
-% {VSCB_SSCB_12} 
-VSCBn
-SSCBn
-
-VSCBp
-SSCBp
-
-% {VOIB_SOIB_12} 
-VOIBn
-i*sqrt(2)*SOIBn
-
-VOIBp
-sqrt(2)*SOIBp
-
-% {VOCB_SOCB_12} 
-VOCBn
--SOCBn
-
-VOCBp
-SOCBp
-
-% {VCIB_SCIB_12} 
-VCIBn
-sqrt(2)*conj(SCIBn)
-
-VCIBp
-sqrt(2)*SCIBp
-
-% {VCCB_SCCB_12} 
-VCCBn
--SCCBn
-%SCCBn
-
-VCCBp
-SCCBp
-
-% {SOIB_S_CIB_32} 
-np2  =  2;
-np3  =  3;
-[a a SOIB3 a ] = vsomni(np3, 'OIB', D);
-[a a SSIM3 a ] = vsomni(np3, 'SIM', D);
-SOIB3
-SSIM3
-
-[a a SOIB2 a ] = vsomni(np2, 'OIB', D);
-[a a SCIB2 a ] = vsomni(np2, 'CIB', D);
-SOIB2
-SCIB2
-
-return
 %VCIBp.*VCIBnR - i.^n
